@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WeiBo</string>
+    <string name="text_size_1">15sp</string>
+    <string name="text_size_2">20sp</string>
+</resources>
