@@ -13,6 +13,9 @@ public class RequestUrls {
     private final static String Trending_URL = "https://api.weibo.cn/2/guest/cardlist?" +
             "c=android&s=2113eefd&gsid=_2AkMvp9uzf8NhqwJRmP8TzGziaIh1zQ_EieKZ-ypoJRM3HRl-3D9jqksFtRUA_66dOsHRmaYELckzGscn77lTuA..&containerid=230584";
 
+    private final static String Star_URL = "https://api.weibo.cn/2/guest/cardlist?" +
+            "c=android&s=2113eefd&gsid=_2AkMvp9uzf8NhqwJRmP8TzGziaIh1zQ_EieKZ-ypoJRM3HRl-3D9jqksFtRUA_66dOsHRmaYELckzGscn77lTuA..&containerid=230781&count=10";
+
     private final static String Hot_Topic_URL = "http://api.weibo.cn/2/guest/cardlist?" +
             "c=android&i=a76efdd&s=9ad5aa04&gsid=_2AkMviY1ef8NhqwJRmP0TyWPiaoV-zQnEieKZ1XyFJRM3HRl-3T9kqmdYtRVkZs8Qlb_TC3Fpsqgy8jGAKrsRwQ..&containerid=230584";
 
@@ -30,6 +33,8 @@ public class RequestUrls {
     public static String getTrending_URL() {
         return Trending_URL;
     }
+
+    public static String getStar_URL(){return Star_URL;}
 
     public static String getHotWords_URL() {
         return HotWords_Url;

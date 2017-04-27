@@ -29,7 +29,6 @@ import com.weibo.Utils.HttpUtil;
 import com.weibo.Utils.RequestUrls;
 import com.weibo.Utils.Utility;
 import com.weibo.View.DeliverGridView;
-import com.weibo.View.ListScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +61,6 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
     private float currentX, currnetY;
     private int padding;
     private int height;
-    private ImageView img_Refresh;
 
     private ViewGroup viewGroup;
     /**
@@ -93,7 +91,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
 
 
         listView = (ListView) container.findViewById(R.id.listview);
-        headerView = LayoutInflater.from(getContext()).inflate(R.layout.header_listview, null);
+        headerView = LayoutInflater.from(getContext()).inflate(R.layout.header_listview_trending, null);
         listView.addHeaderView(headerView);
         blogDataList = new ArrayList<BlogData>();
         adapter = new BlogListAdapter(getContext(), blogDataList, Trending_FindFragment.this);
@@ -148,7 +146,9 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         oldX = currentX;
                         oldY = currnetY;
                         if (headerView_Top == 0 || padding > -1 * height) {
+//                            Log.i(TAG, "onTouch: " + linear_Refresh.getChildAt(0).hashCode() + " " + textView_Refreash.hashCode());
                             if (linear_Refresh.getChildAt(0) != textView_Refreash) {
+                                imageView_Refresh.clearAnimation();
                                 linear_Refresh.removeAllViews();
                                 linear_Refresh.addView(textView_Refreash);
                             }
@@ -164,9 +164,9 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         break;
                     case MotionEvent.ACTION_UP:
                         listView.setFastScrollEnabled(true);
+                        linear_Refresh.removeAllViews();
                         if (padding >= 0) {
                             viewGroup.setPadding(0, 0, 0, 0);
-                            linear_Refresh.removeAllViews();
                             imageView_Refresh.setImageResource(R.drawable.loading_01);
                             linear_Refresh.addView(imageView_Refresh);
                             //设置动画
@@ -238,7 +238,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                     //解析微博数据
 
                     //显示数据
-                    deliverGridView.setAdapter(new SimpleAdapter(getContext(), mapList, R.layout.item_deliver_gridview, new String[]{"topic"}, new int[]{R.id.TextView}));
+                    deliverGridView.setAdapter(new SimpleAdapter(getContext(), mapList, R.layout.item_header_gridview_listview_trending, new String[]{"topic"}, new int[]{R.id.TextView}));
                     blogDataList.addAll(0, Utility.handlemBlogDataResponse(cards));
                     adapter.notifyDataSetChanged();
                     if (padding > -height) {
