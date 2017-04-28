@@ -88,6 +88,8 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
      */
     private RelativeLayout.LayoutParams layoutParams;
 
+    private ViewGroup container;
+
     /***/
 
 
@@ -97,8 +99,8 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
 
         fragmentManager = getFragmentManager();
         fragmentList = new ArrayList<Fragment>();
-        trending_findFragment=new Trending_FindFragment();
-        star_findFragment=new Star_FindFragment();
+        trending_findFragment = new Trending_FindFragment();
+        star_findFragment = new Star_FindFragment();
         fragmentList.add(trending_findFragment);
         fragmentList.add(star_findFragment);
         getHotWords();
@@ -112,13 +114,20 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
         Log.i(TAG, "onCreateView: ");
 
         container = (ViewGroup) inflater.inflate(R.layout.fragment_find, null);
+        this.container = container;
+        return container;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         viewPager = (ViewPager) container.findViewById(R.id.viewPager);
         imageView = (ImageView) container.findViewById(R.id.tab);
         relativeLayout = (RelativeLayout) container.findViewById(R.id.Title);
         textView = (TextView) container.findViewById(R.id.textview_trending);
 
-        textView_Trending= (TextView) container.findViewById(R.id.textview_trending);
-        textView_Star= (TextView) container.findViewById(R.id.textview_start);
+        textView_Trending = (TextView) container.findViewById(R.id.textview_trending);
+        textView_Star = (TextView) container.findViewById(R.id.textview_start);
         textView_Trending.setTextColor(Color.BLACK);
         textView_Star.setTextColor(Color.GRAY);
 
@@ -129,7 +138,6 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
         gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(8);
         gradientDrawable.setColor(Color.parseColor("#f48341"));
-
 
         new Handler().post(new Runnable() {
             @Override
@@ -148,9 +156,7 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
 
             }
         });
-        return container;
     }
-
 
     /**
      * 实现了类似微博的Viewpager指示器
@@ -158,6 +164,8 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        Log.i(TAG, "onPageScrolled: " + winWidth);
 
         if (winWidth == 0) {
             return;
@@ -191,10 +199,10 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
     @Override
     public void onPageSelected(int position) {
 
-        if(position==0){
+        if (position == 0) {
             textView_Trending.setTextColor(Color.BLACK);
             textView_Star.setTextColor(Color.GRAY);
-        }else{
+        } else {
             textView_Star.setTextColor(Color.BLACK);
             textView_Trending.setTextColor(Color.GRAY);
         }
@@ -211,19 +219,19 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
 
     }
 
-    private void getHotWords(){
+    private void getHotWords() {
 
-        HttpUtil.sendJsonObjectRequest(RequestUrls.getHotWords_URL(),new HttpCallback(){
+        HttpUtil.sendJsonObjectRequest(RequestUrls.getHotWords_URL(), new HttpCallback() {
             @Override
             public void onFinish(JSONObject jsonObject) {
-                String hotWords= Utility.handleHotWordsResponse(jsonObject);
-                ((CallBack)trending_findFragment).onFinish(hotWords);
-                ((CallBack)star_findFragment).onFinish(hotWords);
+                String hotWords = Utility.handleHotWordsResponse(jsonObject);
+                ((CallBack) trending_findFragment).onFinish(hotWords);
+                ((CallBack) star_findFragment).onFinish(hotWords);
             }
         });
     }
 
-    public interface CallBack{
+    public interface CallBack {
         void onFinish(String HotWords);
     }
 
