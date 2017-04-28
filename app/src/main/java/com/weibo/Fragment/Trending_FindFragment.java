@@ -170,7 +170,6 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         Log.i(TAG, "onTouch: ACTION_DOWN");
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        //获取当前坐标
 //                        Log.i(TAG, "onTouch: ACTION_MOVE");
                         if (oldY == 0) {
                             oldY = event.getRawY();
@@ -181,7 +180,6 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         oldX = currentX;
                         oldY = currnetY;
                         if (headerView_Top == 0 && sub > 0 || padding > -1 * height) {
-//                            Log.i(TAG, "onTouch: " + linear_Refresh.getChildAt(0).hashCode() + " " + textView_Refreash.hashCode());
                             if (linear_Refresh.getChildAt(0) != textView_Refreash) {
                                 imageView_Refresh.clearAnimation();
                                 linear_Refresh.removeAllViews();
@@ -272,8 +270,6 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         map.put("topic", str);
                         mapList.add(map);
                     }
-                    //解析微博数据
-
                     //显示数据
                     deliverGridView.setAdapter(new SimpleAdapter(getContext(), mapList, R.layout.item_header_gridview_listview_trending, new String[]{"topic"}, new int[]{R.id.TextView}));
                     if (direction == 0) {
