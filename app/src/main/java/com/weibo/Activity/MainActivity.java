@@ -1,14 +1,11 @@
 package com.weibo.Activity;
 
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,7 +18,7 @@ import com.weibo.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static String TAG="TAG";
+    private final static String TAG = "TAG";
 
     /**
      * 底部栏布局
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        getWindow().setNavigationBarColor(Color.WHITE);
 //        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_main);
-        fragmentManager=getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         Init();
     }
 
@@ -92,23 +89,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentView = findViewById(R.id.fragmentView);
 
 
-
         /**
          * 初始化Fragment
          */
         mainFragment = new MainFragment();
         messageFragment = new MessageFragment();
-        findFragment=new FindFragment();
-        userInfoFragment=new UserInfoFragment();
+        findFragment = new FindFragment();
+        userInfoFragment = new UserInfoFragment();
 
-        currentFragment=mainFragment;
+        currentFragment = mainFragment;
 
 
         /**
          * 初始化
          */
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentView,mainFragment);
+        fragmentTransaction.add(R.id.fragmentView, mainFragment);
         fragmentTransaction.commitNow();
         linearLayout_1.callOnClick();
 
@@ -116,15 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void switchFragment(Fragment from, Fragment to) {
 
-        currentFragment=to;
+        currentFragment = to;
 
-        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-            if (!to.isAdded()) {
-                fragmentTransaction.hide(from).add(R.id.fragmentView, to).commit();
-            } else {
-                fragmentTransaction.hide(from).show(to).commit();
-            }
+        if (!to.isAdded()) {
+            fragmentTransaction.hide(from).add(R.id.fragmentView, to).commit();
+        } else {
+            fragmentTransaction.hide(from).show(to).commit();
+        }
     }
 
     @Override
@@ -136,28 +132,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((ImageView) (linearLayout_2.getChildAt(0))).setImageResource(R.drawable.icon_2_n);
                 ((ImageView) (linearLayout_3.getChildAt(0))).setImageResource(R.drawable.icon_3_n);
                 ((ImageView) (linearLayout_4.getChildAt(0))).setImageResource(R.drawable.icon_4_n);
-                switchFragment(currentFragment,mainFragment);
+                switchFragment(currentFragment, mainFragment);
                 break;
             case R.id.linear_icon_2:
                 ((ImageView) (linearLayout_2.getChildAt(0))).setImageResource(R.drawable.icon_2_d);
                 ((ImageView) (linearLayout_1.getChildAt(0))).setImageResource(R.drawable.icon_1_n);
                 ((ImageView) (linearLayout_3.getChildAt(0))).setImageResource(R.drawable.icon_3_n);
                 ((ImageView) (linearLayout_4.getChildAt(0))).setImageResource(R.drawable.icon_4_n);
-                switchFragment(currentFragment,messageFragment);
+                switchFragment(currentFragment, messageFragment);
                 break;
             case R.id.linear_icon_3:
                 ((ImageView) (linearLayout_3.getChildAt(0))).setImageResource(R.drawable.icon_3_d);
                 ((ImageView) (linearLayout_1.getChildAt(0))).setImageResource(R.drawable.icon_1_n);
                 ((ImageView) (linearLayout_2.getChildAt(0))).setImageResource(R.drawable.icon_2_n);
                 ((ImageView) (linearLayout_4.getChildAt(0))).setImageResource(R.drawable.icon_4_n);
-                switchFragment(currentFragment,findFragment);
+                switchFragment(currentFragment, findFragment);
                 break;
             case R.id.linear_icon_4:
                 ((ImageView) (linearLayout_4.getChildAt(0))).setImageResource(R.drawable.icon_4_d);
                 ((ImageView) (linearLayout_1.getChildAt(0))).setImageResource(R.drawable.icon_1_n);
                 ((ImageView) (linearLayout_2.getChildAt(0))).setImageResource(R.drawable.icon_2_n);
                 ((ImageView) (linearLayout_3.getChildAt(0))).setImageResource(R.drawable.icon_3_n);
-                switchFragment(currentFragment,userInfoFragment);
+                switchFragment(currentFragment, userInfoFragment);
                 break;
         }
     }

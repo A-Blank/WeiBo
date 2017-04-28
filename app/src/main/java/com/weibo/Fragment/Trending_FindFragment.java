@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.weibo.Activity.BlogActivity;
 import com.weibo.Activity.PictureActivity;
 import com.weibo.Adapter.BlogListAdapter;
 import com.weibo.Bean.BlogData;
@@ -74,6 +76,15 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
     private TextView textView_Refreash;
     private ImageView imageView_Refresh;
 
+    /**
+     * blogList中点击Item的View
+     */
+    private static View view;
+    /**
+     * 获取到的数据添加的位置
+     */
+    private int direction;
+
 
     /***/
 
@@ -113,13 +124,35 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
 
         page = 1;
 
+        direction = 0;
+
         setListView();
         getDatas();
 
         return container;
     }
 
+    public static View getItem() {
+        return view;
+    }
+
     public void setListView() {
+
+        listView.requestDisallowInterceptTouchEvent(false);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Trending_FindFragment.view = view;
+                Intent intent = new Intent();
+                intent.setClass(getContext(), BlogActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", blogDataList.get(position - 1));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
 
         listView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -134,9 +167,11 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                     case MotionEvent.ACTION_DOWN:
                         oldX = event.getRawX();
                         oldY = event.getRawY();
+                        Log.i(TAG, "onTouch: ACTION_DOWN");
                         break;
                     case MotionEvent.ACTION_MOVE:
                         //获取当前坐标
+//                        Log.i(TAG, "onTouch: ACTION_MOVE");
                         if (oldY == 0) {
                             oldY = event.getRawY();
                         }
@@ -145,7 +180,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         int sub = (int) (currnetY - oldY);
                         oldX = currentX;
                         oldY = currnetY;
-                        if (headerView_Top == 0 || padding > -1 * height) {
+                        if (headerView_Top == 0 && sub > 0 || padding > -1 * height) {
 //                            Log.i(TAG, "onTouch: " + linear_Refresh.getChildAt(0).hashCode() + " " + textView_Refreash.hashCode());
                             if (linear_Refresh.getChildAt(0) != textView_Refreash) {
                                 imageView_Refresh.clearAnimation();
@@ -172,6 +207,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                             //设置动画
                             Animation rotateAnimator = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
                             imageView_Refresh.startAnimation(rotateAnimator);
+                            direction = 0;
                             getDatas();
                         } else {
                             padding = -height;
@@ -201,6 +237,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         } else {
                             break;
                         }
+                        direction = 1;
                         getDatas();
                         break;
                     case SCROLL_STATE_FLING:
@@ -239,7 +276,11 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
 
                     //显示数据
                     deliverGridView.setAdapter(new SimpleAdapter(getContext(), mapList, R.layout.item_header_gridview_listview_trending, new String[]{"topic"}, new int[]{R.id.TextView}));
-                    blogDataList.addAll(0, Utility.handlemBlogDataResponse(cards));
+                    if (direction == 0) {
+                        blogDataList.addAll(0, Utility.handlemBlogDataResponse(cards));
+                    } else if (direction == 1) {
+                        blogDataList.addAll(Utility.handlemBlogDataResponse(cards));
+                    }
                     adapter.notifyDataSetChanged();
                     if (padding > -height) {
                         imageView_Refresh.clearAnimation();
@@ -274,6 +315,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
         Intent intent = new Intent(getActivity(), PictureActivity.class);
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("pic_url", (ArrayList<String>) blogDataList.get(listviewPos).getPic_url());
+        bundle.putStringArrayList("original_pic_url", (ArrayList<String>) blogDataList.get(listviewPos).getPic_original_url());
         bundle.putInt("position", gridviewPos);
         bundle.putString("activity", "MainActivity");
         intent.putExtras(bundle);

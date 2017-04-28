@@ -1,6 +1,7 @@
 package com.weibo.Utils;
 
 import com.weibo.Bean.BlogData;
+import com.weibo.Bean.CommentData;
 import com.weibo.Bean.TrendingTopData;
 
 import org.json.JSONArray;
@@ -71,7 +72,9 @@ public class Utility {
                     }
                     BlogData data = new BlogData();
                     List<String> urlList = new ArrayList<String>();
+                    List<String> original_urlList = new ArrayList<String>();
                     JSONObject object = jsonArray.getJSONObject(i).getJSONObject("mblog");
+                    String id = object.getString("id");
                     String user_pic_url = object.getJSONObject("user").getString("profile_image_url");
                     String name = object.getJSONObject("user").getString("name");
                     String time = object.getString("created_at");
@@ -81,16 +84,20 @@ public class Utility {
                         JSONArray pic = object.getJSONArray("pic_ids");
                         for (int k = 0; k < pic.length(); k++) {
                             JSONObject pic_infos = object.getJSONObject("pic_infos");
-                            String url = pic_infos.getJSONObject(pic.getString(k)).getJSONObject("original").getString("url");
+                            String url = pic_infos.getJSONObject(pic.getString(k)).getJSONObject("bmiddle").getString("url");
+                            String original_url = pic_infos.getJSONObject(pic.getString(k)).getJSONObject("original").getString("url");
                             urlList.add(url);
+                            original_urlList.add(original_url);
                         }
                     }
+                    data.setId(id);
                     data.setUser_pic_url(user_pic_url);
                     data.setName(name);
                     data.setTime(time);
                     data.setDevice(device);
                     data.setText(text);
                     data.setPic_url(urlList);
+                    data.setPic_original_url(original_urlList);
                     list.add(data);
 
                 }
@@ -176,6 +183,40 @@ public class Utility {
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 String words = jsonObject.getString("word");
                 return words;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 解析和处理服务器返回的微博评论数据
+     */
+    public synchronized static List<CommentData> handleCommentResponse(JSONObject response) {
+
+        if (response != null) {
+            try {
+                JSONArray jsonArray = response.getJSONArray("root_comments");
+                List<CommentData> list = new ArrayList<CommentData>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    CommentData data = new CommentData();
+                    String user_pic_url = object.getJSONObject("user").getString("profile_image_url");
+                    String name = object.getJSONObject("user").getString("name");
+                    String time = object.getString("created_at");
+                    String text = object.getString("text");
+                    int like_counts = object.getInt("like_counts");
+                    data.setUser_pic_url(user_pic_url);
+                    data.setName(name);
+                    data.setTime(time);
+                    data.setText(text);
+                    data.setLike_counts(like_counts);
+                    list.add(data);
+                }
+
+                return list;
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -27,6 +27,8 @@
             android:name=".Activity.PictureActivity"
             android:theme="@style/AppTheme.translucent" />
 
+        <activity android:name=".Activity.BlogActivity" />
+
     </application>
 
 </manifest>

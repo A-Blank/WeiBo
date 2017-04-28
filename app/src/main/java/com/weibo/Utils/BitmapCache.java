@@ -43,7 +43,7 @@ public class BitmapCache implements ImageLoader.ImageCache {
     @Override
     public void putBitmap(String s, Bitmap bitmap) {
         mCache.put(s, bitmap);
-        Log.i("TAG", "BitmapCache: put" + bitmap.getByteCount());
+//        Log.i("TAG", "BitmapCache: put" + bitmap.getByteCount());
 
     }
 }

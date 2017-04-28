@@ -33,6 +33,7 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
     private TextView textView_index;
 
     private List<String> list;
+    private List<String> original_list;
     private ImageLoader imageLoader;
 
     private RequestQueue requestQueue;
@@ -51,6 +52,7 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
         list = getIntent().getExtras().getStringArrayList("pic_url");
+        original_list = getIntent().getExtras().getStringArrayList("original_pic_url");
         position = getIntent().getExtras().getInt("position");
         activityName = getIntent().getExtras().getString("activity");
         Init();
@@ -63,14 +65,6 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
     }
 
     public void Init() {
-
-//        if (activityName.equals("MainActivity")) {
-//            activity = MainActivity.getActivity();
-//            callBack = (CallBack) activity;
-//        } else if (activityName.equals("TopicActivity")) {
-//            activity = TopicActivity.getActivity();
-//            callBack = (CallBack) activity;
-//        }
 
         transition = getWindow().getSharedElementExitTransition();
 
@@ -86,8 +80,9 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
         requestQueue = volleyControl.getRequestQueue();
         imageLoader = new ImageLoader(requestQueue, BitmapCache.getInstace());
 
-        for (final String str :
-                list) {
+        for (int i = 0; i < original_list.size(); i++) {
+            final String str_1 = list.get(i);
+            final String str_2 = original_list.get(i);
             final MyImageView imageView = new MyImageView(this);
             imageView.setPosition(viewList.size());
             imageView.post(new Runnable() {
@@ -97,7 +92,8 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
                     int height = imageView.getHeight();
                     imageView.setWidth(width);
                     imageView.setHeight(height);
-                    imageView.InitBitmap(str);
+                    imageView.InitBitmap(str_1);
+                    imageView.InitBitmap(str_2);
                 }
             });
             viewList.add(imageView);
@@ -154,7 +150,7 @@ public class PictureActivity extends Activity implements ViewPager.OnPageChangeL
     @Override
     public void onClick() {
         finish();
-        overridePendingTransition(0,R.anim.zoom_out);
+        overridePendingTransition(0, R.anim.zoom_out);
     }
 
     public interface CallBack {

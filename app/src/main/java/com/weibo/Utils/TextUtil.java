@@ -72,7 +72,7 @@ public class TextUtil {
 //                    TrendingActivity.trendingActivity.startActivity(intent);
                 }
             }, start, start + 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#0969d0")), start, start + 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#5270cf")), start, start + 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
 
 //        spannableString.set;
@@ -116,14 +116,13 @@ public class TextUtil {
                 public void updateDrawState(TextPaint ds) {
                     super.updateDrawState(ds);
                     ds.setUnderlineText(false);
+                    ds.setColor(Color.parseColor("#5270cf"));
                 }
-
                 @Override
                 public void onClick(View widget) {
                     Log.i("TAG", "onClick: spanURl");
                 }
             }, start, start+str.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            content.setSpan(new ForegroundColorSpan(Color.rgb(0, 0, 200)), 0, 0, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
 
         return content;

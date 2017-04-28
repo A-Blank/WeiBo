@@ -122,10 +122,6 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
         textView_Trending.setTextColor(Color.BLACK);
         textView_Star.setTextColor(Color.GRAY);
 
-//        textView_Hotwords= (TextView) container.findViewById(R.id.hotwords);
-//        textView_Hotwords.setOnClickListener(this);
-
-
         fragmentAdapter = new FragmentAdapter(fragmentManager);
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(this);

@@ -102,8 +102,8 @@ public class MyImageView extends ImageView {
         this.viewHeight = height;
     }
 
-    public void setPosition(int position){
-        this.position=position;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void InitBitmap(final String Url) {
@@ -143,8 +143,8 @@ public class MyImageView extends ImageView {
                     float inSampleSize_2 = (float) (1.0 * height / width);
                     float inSampleSize_3 = height / viewHeight < width / viewWidth ? height / viewHeight : width / viewWidth;
                     options.inSampleSize = (int) inSampleSize_3;
-                    Log.i("TAG", "inSampleSize=" + height / viewHeight+" "+ width / viewWidth);
-                    options.inJustDecodeBounds=false;
+                    Log.i("TAG", "inSampleSize=" + height / viewHeight + " " + width / viewWidth);
+                    options.inJustDecodeBounds = false;
                     conn = (HttpURLConnection) url.openConnection();
                     in = conn.getInputStream();
                     if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -160,7 +160,7 @@ public class MyImageView extends ImageView {
                         rect.bottom = (int) (width * inSampleSize_1);
                     } else {
 //                        Log.i("TAG", "SlideEnable=false" );
-                        flag=false;
+                        flag = false;
                         rect.bottom = height;
                     }
                 } catch (Exception e) {
