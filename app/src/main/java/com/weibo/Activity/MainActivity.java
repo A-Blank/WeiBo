@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragmentView, mainFragment);
         fragmentTransaction.commitNow();
-        linearLayout_1.callOnClick();
+        linearLayout_3.callOnClick();
 
     }
 

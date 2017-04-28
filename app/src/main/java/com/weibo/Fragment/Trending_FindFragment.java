@@ -93,6 +93,12 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,25 +108,26 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
 
 
         listView = (ListView) container.findViewById(R.id.listview);
+        linear_Refresh = (LinearLayout) container.findViewById(R.id.linear_refresh);
         headerView = LayoutInflater.from(getContext()).inflate(R.layout.header_listview_trending, null);
+
+        textView_Hotwords = (TextView) headerView.findViewById(R.id.hotwords);
+        deliverGridView = (DeliverGridView) headerView.findViewById(R.id.gridView);
+
         listView.addHeaderView(headerView);
         blogDataList = new ArrayList<BlogData>();
         adapter = new BlogListAdapter(getContext(), blogDataList, Trending_FindFragment.this);
         listView.setAdapter(adapter);
-
-        textView_Hotwords = (TextView) container.findViewById(R.id.hotwords);
-        deliverGridView = (DeliverGridView) container.findViewById(R.id.gridView);
-
-        linear_Refresh = (LinearLayout) container.findViewById(R.id.linear_refresh);
-        textView_Refreash = new TextView(getContext());
-        imageView_Refresh = new ImageView(getContext());
-
         /**
          * 隐藏下拉刷新控件
          */
         height = 150;
         padding = -height;
         viewGroup.setPadding(0, padding, 0, 0);
+
+        textView_Refreash = new TextView(getContext());
+        imageView_Refresh = new ImageView(getContext());
+
 
         page = 1;
 
@@ -196,7 +203,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        listView.setFastScrollEnabled(true);
+//                        listView.setFastScrollEnabled(true);
                         linear_Refresh.removeAllViews();
                         if (padding >= 0) {
                             viewGroup.setPadding(0, 0, 0, 0);
@@ -242,7 +249,7 @@ public class Trending_FindFragment extends Fragment implements FindFragment.Call
                         BlogListAdapter.setIsListViewIDLE(false);
                         break;
                 }
-                listView.postInvalidate();
+//                listView.postInvalidate();
             }
 
             @Override

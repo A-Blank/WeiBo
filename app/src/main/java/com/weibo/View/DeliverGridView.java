@@ -53,7 +53,6 @@ public class DeliverGridView extends GridView {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-
         View view = getChildAt(0);
         if (view == null) {
             return;

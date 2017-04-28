@@ -218,7 +218,7 @@ public class Star_FindFragment extends Fragment implements FindFragment.CallBack
                         BlogListAdapter.setIsListViewIDLE(false);
                         break;
                 }
-                listView.postInvalidate();
+
             }
 
             @Override
