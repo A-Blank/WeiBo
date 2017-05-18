@@ -104,14 +104,12 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
         fragmentList.add(trending_findFragment);
         fragmentList.add(star_findFragment);
         getHotWords();
-        Log.i(TAG, "onCreate: ");
     }
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView: ");
 
         container = (ViewGroup) inflater.inflate(R.layout.fragment_find, null);
         this.container = container;
@@ -130,6 +128,8 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
         textView_Star = (TextView) container.findViewById(R.id.textview_start);
         textView_Trending.setTextColor(Color.BLACK);
         textView_Star.setTextColor(Color.GRAY);
+        textView_Trending.setOnClickListener(this);
+        textView_Star.setOnClickListener(this);
 
         fragmentAdapter = new FragmentAdapter(fragmentManager);
         viewPager.setAdapter(fragmentAdapter);
@@ -216,6 +216,15 @@ public class FindFragment extends Fragment implements ViewPager.OnPageChangeList
 
     @Override
     public void onClick(View v) {
+
+        switch(v.getId()){
+            case R.id.textview_trending:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.textview_start:
+                viewPager.setCurrentItem(1);
+                break;
+        }
 
     }
 
